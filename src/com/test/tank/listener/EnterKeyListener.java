@@ -32,6 +32,7 @@ public class EnterKeyListener extends KeyAdapter {
         for (Tank tank : tanks) {
             if(!tank.isLiving()){
                 tank.setLiving(true);
+                tank.resurgence();
             }
         }
         frame.repaint();

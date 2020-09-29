@@ -1,6 +1,6 @@
 package com.test.tank.listener;
 
-import com.test.tank.constant.Dir;
+import com.test.tank.constant.Direction;
 import com.test.tank.Tank;
 
 import java.awt.event.KeyAdapter;
@@ -63,13 +63,13 @@ public abstract class AbstractMoveKeyListener extends KeyAdapter {
 
     private void setMainTankDir() {
         if (bL)
-            tank.setDir(Dir.LEFT);
+            tank.setDirection(Direction.LEFT);
         if (bU)
-            tank.setDir(Dir.UP);
+            tank.setDirection(Direction.UP);
         if (bR)
-            tank.setDir(Dir.RIGHT);
+            tank.setDirection(Direction.RIGHT);
         if (bD)
-            tank.setDir(Dir.DOWN);
+            tank.setDirection(Direction.DOWN);
     }
 
 }

@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class TankFrame extends Frame {
-    MainTank mainTank = new MainTank(this, "D:\\workspace\\test\\planeUP.jpg");
-    BlueTank blueTank = new BlueTank(this, "D:\\workspace\\test\\tank.jpg");
+    MainTank mainTank = new MainTank(this);
+    BlueTank blueTank = new BlueTank(this);
     public final static int FRAME_WIDTH = 800, FRAME_HEIGHT = 600;
 
     public TankFrame() {

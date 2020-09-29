@@ -1,7 +1,9 @@
 package com.test.tank;
 
-import com.test.tank.constant.Dir;
+import com.test.tank.constant.Direction;
+import com.test.tank.i.IRectangle;
 import com.test.tank.util.ResourceManager;
+import com.test.tank.util.ThreadUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,26 +14,26 @@ import java.awt.image.BufferedImage;
  * @author: liujinliang
  * @create: 2020-09-26 21:12
  **/
-public class Bullet {
+public class Bullet implements IRectangle {
     int x=200,y=200;
     int width =10, height =10;
     boolean living = true;
-    Dir dir;
+    Direction direction;
     private static final int SPEED= 10;
     int tankX,tankY;
 
-    public Bullet(int x, int y, Dir dir) {
+    public Bullet(int x, int y, Direction direction) {
         this.tankX = x;
         this.tankY = y;
         this.x = x + 50;
         this.y = y + 50;
-        this.dir = dir;
+        this.direction = direction;
         this.width = 10;
         this.height = 10;
     }
 
-    public BufferedImage getImage(Dir dir){
-        switch (dir){
+    public BufferedImage getImage(Direction direction){
+        switch (direction){
             case LEFT: return ResourceManager.bulletL;
             case UP: return ResourceManager.bulletU;
             case RIGHT: return ResourceManager.bulletR;
@@ -44,14 +46,14 @@ public class Bullet {
     public void paint(Graphics g) {
         if(!living) return;
         move();
-        g.drawImage(getImage(dir), x,y, width, height, null);
+        g.drawImage(getImage(direction), x,y, width, height, null);
     }
 
     /**
      * 这里的50是tank的长度和宽度
      */
     private void move() {
-        switch (dir){
+        switch (direction){
             case LEFT:
                 y = tankY + 50 - height /2;
                 x = x - SPEED;
@@ -88,12 +90,12 @@ public class Bullet {
         this.y = y;
     }
 
-    public Dir getDir() {
-        return dir;
+    public Direction getDirection() {
+        return direction;
     }
 
-    public void setDir(Dir dir) {
-        this.dir = dir;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public boolean isLiving() {
@@ -105,15 +107,12 @@ public class Bullet {
     }
 
     public void collisionWith(Tank tank){
-        Rectangle rectangleBullet = new Rectangle(this.x, this.y, width, height);
-        Rectangle rectangleTank = new Rectangle(tank.x, tank.y, Tank.TANK_WIDTH, Tank.TANK_HEIGHT);
-        if(rectangleBullet.intersects(rectangleTank)){
+        if(this.getRectangle().intersects(tank.getRectangle())){
             tank.setLiving(false);
             this.setLiving(false);
-            this.x =0;
-            this.y=0;
-            this.width = 0;
-            this.height = 0;
+            new Bomb(tank.getFrame(), this).paint();
+            ThreadUtils.sleep(500);
+            tank.recycle();
         }
     }
 
@@ -131,5 +130,10 @@ public class Bullet {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    @Override
+    public Rectangle getRectangle() {
+        return new Rectangle(x,y,width,height);
     }
 }

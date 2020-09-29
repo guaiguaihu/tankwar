@@ -1,5 +1,5 @@
 package com.test.tank.constant;
 
-public enum Dir {
+public enum Direction {
     LEFT,UP,RIGHT,DOWN
 }

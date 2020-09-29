@@ -1,11 +1,10 @@
 package com.test.tank;
 
-import com.test.tank.constant.Dir;
+import com.test.tank.constant.Direction;
+import com.test.tank.i.IRectangle;
 import com.test.tank.util.ResourceManager;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,11 +12,13 @@ import java.util.ArrayList;
 import static com.test.tank.TankFrame.FRAME_HEIGHT;
 import static com.test.tank.TankFrame.FRAME_WIDTH;
 
-public class Tank {
+public class Tank implements IRectangle {
     private Frame frame;
-    private String image;
+    private BufferedImage image;
     int x=200,y=200;
-    Dir dir = Dir.DOWN;
+    int width=TANK_WIDTH,height=TANK_HEIGHT;
+
+    Direction direction = Direction.DOWN;
     boolean moving = false;
     boolean dirKey = true;
     boolean living = true;
@@ -26,8 +27,12 @@ public class Tank {
 
     private ArrayList<Bullet> bulletList = new ArrayList<>();
 
-    public BufferedImage getImage(Dir dir){
-        switch (dir){
+    public Tank(Frame frame) {
+        this.frame = frame;
+    }
+
+    public BufferedImage getImage(Direction direction){
+        switch (direction){
             case LEFT: return ResourceManager.tankL;
             case UP: return ResourceManager.tankU;
             case RIGHT: return ResourceManager.tankR;
@@ -39,11 +44,18 @@ public class Tank {
 
     public void paint(Graphics g) throws IOException {
         if(!living) return;
+
         move();
         g.setColor(Color.RED);
-        g.drawImage(getImage(dir), x, y, TANK_WIDTH, TANK_HEIGHT, frame);
+        g.drawImage(getImage(direction), x, y, width, height, frame);
 
-        // 画子弹
+        painBullet(g);
+
+    }
+
+    private void painBullet(Graphics g){
+        bulletList.removeIf(bullet -> !bullet.isLiving());
+
         for (Bullet bullet : bulletList) {
             bullet.paint(g);
         }
@@ -51,7 +63,7 @@ public class Tank {
 
     private void move() {
         if(!moving){return;}
-        switch (dir){
+        switch (direction){
             case LEFT:
                 if(x - SPEED > 0) x-=SPEED;
                 break;
@@ -59,24 +71,20 @@ public class Tank {
                 if(y - SPEED > 0)y-=SPEED;
                 break;
             case RIGHT:
-                if(x + SPEED +Tank.TANK_WIDTH <= FRAME_WIDTH)x+=SPEED;
+                if(x + SPEED +this.width <= FRAME_WIDTH)x+=SPEED;
                 break;
             case DOWN:
-                if(y + SPEED +Tank.TANK_HEIGHT <= FRAME_HEIGHT)y+=SPEED;
+                if(y + SPEED +this.height <= FRAME_HEIGHT)y+=SPEED;
                 break;
             default:break;
         }
     }
 
-    public Tank(Frame frame) {
-        this.frame = frame;
-    }
-
-    public String getImage() {
+    public BufferedImage getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(BufferedImage image) {
         this.image = image;
     }
 
@@ -104,126 +112,12 @@ public class Tank {
         this.y = y;
     }
 
-    public Dir getDir() {
-        return dir;
+    public Direction getDirection() {
+        return direction;
     }
 
-    public void setDir(Dir dir) {
-        this.dir = dir;
-    }
-
-    public class TankKeyListener extends KeyAdapter {
-        boolean bL = false;
-        boolean bU = false;
-        boolean bR = false;
-        boolean bD = false;
-        @Override
-        public void keyPressed(KeyEvent e) {
-            int key = e.getKeyCode();
-            if(isDirKey()){
-                listenDirKey(key);
-            } else {
-                listenKey(key);
-            }
-
-
-            if(bL || bU || bR || bD){
-                moving = true;
-            } else {
-                moving = false;
-            }
-            setMainTandkDir();
-            frame.repaint();
-        }
-
-        private void listenDirKey(int key) {
-            switch (key){
-                case KeyEvent.VK_LEFT:
-                    bL=true;
-                    break;
-                case KeyEvent.VK_UP:
-                    bU=true;
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    bR=true;
-                    break;
-                case KeyEvent.VK_DOWN:
-                    bD=true;
-                    break;
-                case KeyEvent.VK_CONTROL:
-                    bulletList.add(new Bullet(x,y,dir));
-                    break;
-                default:break;
-            }
-        }
-
-        private void listenKey(int key){
-            switch (key){
-                case KeyEvent.VK_A:
-                    bL=true;
-                    break;
-                case KeyEvent.VK_W:
-                    bU=true;
-                    break;
-                case KeyEvent.VK_D:
-                    bR=true;
-                    break;
-                case KeyEvent.VK_S:
-                    bD=true;
-                    break;
-                case KeyEvent.VK_F:
-                    bulletList.add(new Bullet(x,y,dir));
-                    break;
-                default:break;
-            }
-        }
-
-        private void setMainTandkDir() {
-            if(bL) dir = Dir.LEFT;
-            if(bU) dir = Dir.UP;
-            if(bR) dir = Dir.RIGHT;
-            if(bD) dir = Dir.DOWN;
-
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            int key = e.getKeyCode();
-            if(dirKey){
-                switch (key){
-                    case KeyEvent.VK_LEFT:
-                        bL=false;
-                        break;
-                    case KeyEvent.VK_UP:
-                        bU=false;
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        bR=false;
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        bD=false;
-                        break;
-                    default:break;
-                }
-            } else {
-                switch (key){
-                    case KeyEvent.VK_A:
-                        bL=false;
-                        break;
-                    case KeyEvent.VK_W:
-                        bU=false;
-                        break;
-                    case KeyEvent.VK_D:
-                        bR=false;
-                        break;
-                    case KeyEvent.VK_S:
-                        bD=false;
-                        break;
-                    default:break;
-                }
-            }
-
-        }
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public boolean isLiving() {
@@ -254,7 +148,38 @@ public class Tank {
         return frame;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
     public void setFrame(Frame frame) {
         this.frame = frame;
+    }
+
+    public void recycle(){
+        this.setWidth(0);
+        this.setHeight(0);
+    }
+
+    public void resurgence(){
+        this.setWidth(TANK_WIDTH);
+        this.setHeight(TANK_HEIGHT);
+    }
+
+    @Override
+    public Rectangle getRectangle() {
+        return new Rectangle(x,y,width,height);
     }
 }
