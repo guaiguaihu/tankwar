@@ -55,19 +55,19 @@ public class Bullet implements IRectangle {
     private void move() {
         switch (direction){
             case LEFT:
-                y = tankY + 50 - height /2;
+                y = tankY + Tank.TANK_HEIGHT - height /2;
                 x = x - SPEED;
                 break;
             case UP:
-                x = tankX + 50 - width /2;
+                x = tankX + Tank.TANK_WIDTH - width /2;
                 y-=SPEED;
                 break;
             case RIGHT:
-                y = tankY + 50 - height /2;
+                y = tankY + Tank.TANK_HEIGHT - height /2;
                 x+=SPEED;
                 break;
             case DOWN:
-                x = tankX + 50 - width /2;
+                x = tankX + Tank.TANK_WIDTH - width /2;
                 y+=SPEED;
                 break;
             default:break;
