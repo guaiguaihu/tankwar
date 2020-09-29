@@ -1,5 +1,6 @@
 package com.test.tank;
 
+import com.test.tank.constant.Constants;
 import com.test.tank.constant.Direction;
 import com.test.tank.i.IRectangle;
 import com.test.tank.util.ResourceManager;
@@ -9,21 +10,19 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.test.tank.TankFrame.FRAME_HEIGHT;
-import static com.test.tank.TankFrame.FRAME_WIDTH;
+import static com.test.tank.constant.Constants.FRAME_HEIGHT;
+import static com.test.tank.constant.Constants.FRAME_WIDTH;
 
 public class Tank implements IRectangle {
     private Frame frame;
-    private BufferedImage image;
     int x=200,y=200;
-    int width=TANK_WIDTH,height=TANK_HEIGHT;
+
+    int width= Constants.TANK_SIZE,height=Constants.TANK_SIZE;
 
     Direction direction = Direction.DOWN;
     boolean moving = false;
-    boolean dirKey = true;
     boolean living = true;
-    private static final int SPEED= 10;
-    public static final int TANK_WIDTH= 100,TANK_HEIGHT= 100;
+    static final int SPEED= 10;
 
     private ArrayList<Bullet> bulletList = new ArrayList<>();
 
@@ -80,22 +79,6 @@ public class Tank implements IRectangle {
         }
     }
 
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    public void setImage(BufferedImage image) {
-        this.image = image;
-    }
-
-    public boolean isDirKey() {
-        return dirKey;
-    }
-
-    public void setDirKey(boolean dirKey) {
-        this.dirKey = dirKey;
-    }
-
     public int getX() {
         return x;
     }
@@ -148,34 +131,14 @@ public class Tank implements IRectangle {
         return frame;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public void setFrame(Frame frame) {
-        this.frame = frame;
-    }
-
     public void recycle(){
-        this.setWidth(0);
-        this.setHeight(0);
+        this.height = 0;
+        this.width = 0;
     }
 
     public void resurgence(){
-        this.setWidth(TANK_WIDTH);
-        this.setHeight(TANK_HEIGHT);
+        this.height = Constants.TANK_SIZE;
+        this.width = Constants.TANK_SIZE;
     }
 
     @Override

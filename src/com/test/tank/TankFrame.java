@@ -10,10 +10,12 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static com.test.tank.constant.Constants.FRAME_HEIGHT;
+import static com.test.tank.constant.Constants.FRAME_WIDTH;
+
 public class TankFrame extends Frame {
     MainTank mainTank = new MainTank(this);
     BlueTank blueTank = new BlueTank(this);
-    public final static int FRAME_WIDTH = 800, FRAME_HEIGHT = 600;
 
     public TankFrame() {
         setSize(FRAME_WIDTH, FRAME_HEIGHT);

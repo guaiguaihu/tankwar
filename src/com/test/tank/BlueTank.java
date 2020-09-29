@@ -6,14 +6,13 @@ import com.test.tank.util.ResourceManager;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static com.test.tank.TankFrame.FRAME_HEIGHT;
+import static com.test.tank.constant.Constants.FRAME_HEIGHT;
 
 public class BlueTank extends Tank {
     public BlueTank(Frame frame) {
         super(frame);
         setX(0);
         setY(FRAME_HEIGHT/2);
-        setDirKey(false);
     }
 
     public BufferedImage getImage(Direction direction){

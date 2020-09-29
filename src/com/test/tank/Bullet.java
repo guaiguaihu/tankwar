@@ -1,5 +1,6 @@
 package com.test.tank;
 
+import com.test.tank.constant.Constants;
 import com.test.tank.constant.Direction;
 import com.test.tank.i.IRectangle;
 import com.test.tank.util.ResourceManager;
@@ -25,8 +26,8 @@ public class Bullet implements IRectangle {
     public Bullet(int x, int y, Direction direction) {
         this.tankX = x;
         this.tankY = y;
-        this.x = x + 50;
-        this.y = y + 50;
+        this.x = x + Constants.TANK_SIZE;
+        this.y = y + Constants.TANK_SIZE;
         this.direction = direction;
         this.width = 10;
         this.height = 10;
@@ -55,19 +56,19 @@ public class Bullet implements IRectangle {
     private void move() {
         switch (direction){
             case LEFT:
-                y = tankY + Tank.TANK_HEIGHT - height /2;
+                y = tankY + Constants.TANK_SIZE/2 - height /2;
                 x = x - SPEED;
                 break;
             case UP:
-                x = tankX + Tank.TANK_WIDTH - width /2;
+                x = tankX + Constants.TANK_SIZE/2 - width /2;
                 y-=SPEED;
                 break;
             case RIGHT:
-                y = tankY + Tank.TANK_HEIGHT - height /2;
+                y = tankY + Constants.TANK_SIZE /2- height /2;
                 x+=SPEED;
                 break;
             case DOWN:
-                x = tankX + Tank.TANK_WIDTH - width /2;
+                x = tankX + Constants.TANK_SIZE/2 - width /2;
                 y+=SPEED;
                 break;
             default:break;
