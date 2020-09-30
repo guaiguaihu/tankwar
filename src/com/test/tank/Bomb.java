@@ -37,6 +37,7 @@ public class Bomb {
             case DOWN:x-=width/2;break;
             default:break;
         }
+        new Thread(()->new Audio("audio/explode.wav").play()).start();
         frame.getGraphics().drawImage(ResourceManager.bomb01, x,y,width,height, null);
     }
 

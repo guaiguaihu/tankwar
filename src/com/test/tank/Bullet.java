@@ -20,7 +20,7 @@ public class Bullet implements IRectangle {
     int width =10, height =10;
     boolean living = true;
     Direction direction;
-    private static final int SPEED= 10;
+    private static final int SPEED= 30;
     int tankX,tankY;
 
     public Bullet(int x, int y, Direction direction) {

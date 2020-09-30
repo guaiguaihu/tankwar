@@ -22,7 +22,7 @@ public class Tank implements IRectangle {
     Direction direction = Direction.DOWN;
     boolean moving = false;
     boolean living = true;
-    static final int SPEED= 10;
+    static final int SPEED= 5;
 
     private ArrayList<Bullet> bulletList = new ArrayList<>();
 
@@ -62,6 +62,8 @@ public class Tank implements IRectangle {
 
     private void move() {
         if(!moving){return;}
+
+        new Thread(()->new Audio("audio/tank_move.wav").play()).start();
         switch (direction){
             case LEFT:
                 if(x - SPEED > 0) x-=SPEED;
@@ -144,5 +146,10 @@ public class Tank implements IRectangle {
     @Override
     public Rectangle getRectangle() {
         return new Rectangle(x,y,width,height);
+    }
+
+    public void fire(){
+        getBulletList().add(new Bullet(getX(), getY(), getDirection()));
+        new Thread(()->new Audio("audio/explode.wav").play()).start();
     }
 }

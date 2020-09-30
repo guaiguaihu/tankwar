@@ -32,7 +32,7 @@ public class DirectionMoveKeyListener extends AbstractMoveKeyListener {
                 bD = true;
                 break;
             case KeyEvent.VK_CONTROL:
-                tank.getBulletList().add(new Bullet(tank.getX(), tank.getY(), tank.getDirection()));
+                tank.fire();
                 break;
             default:
                 break;
