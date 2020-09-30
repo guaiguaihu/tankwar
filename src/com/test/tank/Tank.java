@@ -49,7 +49,6 @@ public class Tank implements IRectangle {
         g.drawImage(getImage(direction), x, y, width, height, frame);
 
         painBullet(g);
-
     }
 
     private void painBullet(Graphics g){

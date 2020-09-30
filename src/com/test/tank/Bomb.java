@@ -1,5 +1,6 @@
 package com.test.tank;
 
+import com.test.tank.constant.Constants;
 import com.test.tank.util.ResourceManager;
 
 import java.awt.*;
@@ -14,15 +15,15 @@ public class Bomb {
     private int x = 400,y=300;
     private int width = 100,height=100;
     private Bullet bullet;
-    private Frame frame;
+    private Tank collisionTank;
 
-    public Bomb(Frame frame) {
-        this.frame = frame;
+    public Bomb(Tank collisionTank) {
+        this.collisionTank = collisionTank;
     }
 
-    public Bomb(Frame frame, Bullet bullet) {
+    public Bomb(Tank collisionTank, Bullet bullet) {
         this.bullet = bullet;
-        this.frame = frame;
+        this.collisionTank = collisionTank;
         this.x = bullet.getX();
         this.y = bullet.getY();
         this.setWidth(100);
@@ -30,15 +31,28 @@ public class Bomb {
     }
 
     public void paint(){
-        switch (bullet.getDirection()){
-            case LEFT: y-=height/2;x-=width;break;
-            case RIGHT:y-=height/2;break;
-            case UP:y-=height;x-=width/2;break;
-            case DOWN:x-=width/2;break;
-            default:break;
-        }
+//        switch (bullet.getDirection()) {
+//            case LEFT:
+//                y -= height / 2;
+//                x -= width;
+//                break;
+//            case RIGHT:
+//                y -= height / 2;
+//                break;
+//            case UP:
+//                y -= height;
+//                x -= width / 2;
+//                break;
+//            case DOWN:
+//                x -= width / 2;
+//                break;
+//            default:
+//                break;
+//        }
+        x = collisionTank.getX() + Constants.TANK_SIZE/2-width/2;
+        y = collisionTank.getY() + Constants.TANK_SIZE/2-height/2;
         new Thread(()->new Audio("audio/explode.wav").play()).start();
-        frame.getGraphics().drawImage(ResourceManager.bomb01, x,y,width,height, null);
+        collisionTank.getFrame().getGraphics().drawImage(ResourceManager.bomb01, x,y,width,height, null);
     }
 
     public int getWidth() {

@@ -111,7 +111,7 @@ public class Bullet implements IRectangle {
         if(this.getRectangle().intersects(tank.getRectangle())){
             tank.setLiving(false);
             this.setLiving(false);
-            new Bomb(tank.getFrame(), this).paint();
+            new Bomb(tank, this).paint();
             ThreadUtils.sleep(500);
             tank.recycle();
         }
