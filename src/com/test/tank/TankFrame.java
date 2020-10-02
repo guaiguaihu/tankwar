@@ -47,6 +47,7 @@ public class TankFrame extends Frame {
                 bullet.collisionWith(blueTank);
             }
             for (Bullet bullet : blueTank.getBulletList()) {
+                System.out.println("bullet rect:" + bullet.getRectangle() + "plane rect:" + mainTank.getRectangle());
                 bullet.collisionWith(mainTank);
             }
 

@@ -3,6 +3,7 @@ package com.test.tank;
 import com.test.tank.constant.Constants;
 import com.test.tank.constant.Direction;
 import com.test.tank.i.IRectangle;
+import com.test.tank.util.PropertyManager;
 import com.test.tank.util.ResourceManager;
 import com.test.tank.util.ThreadUtils;
 
@@ -20,8 +21,9 @@ public class Bullet implements IRectangle {
     int width =10, height =10;
     boolean living = true;
     Direction direction;
-    private static final int SPEED= 30;
+    private static final int SPEED= PropertyManager.getInteger("bulletSpeed");
     int tankX,tankY;
+    private Rectangle rectangle = new Rectangle();
 
     public Bullet(int x, int y, Direction direction) {
         this.tankX = x;
@@ -135,6 +137,10 @@ public class Bullet implements IRectangle {
 
     @Override
     public Rectangle getRectangle() {
-        return new Rectangle(x,y,width,height);
+        rectangle.x = x;
+        rectangle.y = y;
+        rectangle.width = width;
+        rectangle.height = height;
+        return rectangle;
     }
 }

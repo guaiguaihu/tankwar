@@ -3,6 +3,7 @@ package com.test.tank;
 import com.test.tank.constant.Constants;
 import com.test.tank.constant.Direction;
 import com.test.tank.i.IRectangle;
+import com.test.tank.util.PropertyManager;
 import com.test.tank.util.ResourceManager;
 
 import java.awt.*;
@@ -16,13 +17,14 @@ import static com.test.tank.constant.Constants.FRAME_WIDTH;
 public class Tank implements IRectangle {
     private Frame frame;
     int x=200,y=200;
+    private Rectangle rectangle = new Rectangle();
 
     int width= Constants.TANK_SIZE,height=Constants.TANK_SIZE;
 
     Direction direction = Direction.DOWN;
     boolean moving = false;
     boolean living = true;
-    static final int SPEED= 5;
+    static final int SPEED= PropertyManager.getInteger("tankSpeed");
 
     private ArrayList<Bullet> bulletList = new ArrayList<>();
 
@@ -144,7 +146,11 @@ public class Tank implements IRectangle {
 
     @Override
     public Rectangle getRectangle() {
-        return new Rectangle(x,y,width,height);
+        rectangle.x = x;
+        rectangle.y = y;
+        rectangle.width = width;
+        rectangle.height = height;
+        return rectangle;
     }
 
     public void fire(){

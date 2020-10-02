@@ -70,6 +70,14 @@ public class Audio {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				audioInputStream.close();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+			sourceDataLine.close();
 		}
 	}
 
